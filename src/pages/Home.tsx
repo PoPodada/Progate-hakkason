@@ -17,6 +17,7 @@ const Home: React.FC = () => {
     <div>
       <div className="text-slate-400">
         home
+        test
         <br />
         {auth.user ? "ログイン中" : "未ログイン"}
         <br />
