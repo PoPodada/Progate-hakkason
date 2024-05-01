@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import Home from "./pages/Home.tsx";
 import Team from "./pages/Team.tsx";
+import "./firebase.ts";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AuthContextProvider } from "./utils/AuthContext.tsx";
 
