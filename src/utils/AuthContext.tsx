@@ -7,7 +7,6 @@ import {
 } from "react";
 import { auth, provider } from "../firebase";
 import { signInWithPopup, User } from "firebase/auth";
-import { GoogleAuthProvider } from "firebase/auth/cordova";
 
 // Contextの処理
 export type AuthContextType = {

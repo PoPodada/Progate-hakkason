@@ -1,10 +1,8 @@
 import React from "react";
-import { auth } from "../firebase";
 import { useAuthContext } from "../utils/AuthContext";
 
 const Home: React.FC = () => {
   const auth = useAuthContext();
-  auth;
 
   const onClick = () => {
     auth.login();
