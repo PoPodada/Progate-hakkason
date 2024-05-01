@@ -30,7 +30,7 @@ type Props = {
   children: ReactNode;
 };
 
-export const AuthContextProvider = (props: Props) => {
+export const AuthContextProvider: React.FC<Props> = (props: Props) => {
   const [user, setUser] = useState<User | null>(null);
 
   // Authの状態を監視
