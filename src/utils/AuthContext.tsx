@@ -36,6 +36,7 @@ export const AuthContextProvider = (props: Props) => {
   // Authの状態を監視
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
+      console.log("onAuthStateChanged", user);
       setUser(user);
     });
 
@@ -44,13 +45,11 @@ export const AuthContextProvider = (props: Props) => {
 
   // login, logoutの処理
   const login = async () => {
-    const result = await signInWithPopup(auth, provider);
-    setUser(result.user);
+    await signInWithPopup(auth, provider);
   };
 
   const logout = async () => {
     await auth.signOut();
-    setUser(null);
   };
 
   return (

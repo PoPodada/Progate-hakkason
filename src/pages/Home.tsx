@@ -4,14 +4,24 @@ import { useAuthContext } from "../utils/AuthContext";
 const Home: React.FC = () => {
   const auth = useAuthContext();
 
-  const onClick = () => {
+  const onClickLogin = () => {
     auth.login();
+  };
+
+  const onClickLogout = () => {
+    auth.logout();
   };
 
   return (
     <div className="text-slate-400">
       home
-      <button onClick={onClick}>login</button>
+      <br />
+      {auth.user ? "ログイン中" : "未ログイン"}
+      <br />
+      <button onClick={onClickLogin}>login</button>
+      <br />
+      <button onClick={onClickLogout}>logout</button>
+      <br />
     </div>
   );
 };
