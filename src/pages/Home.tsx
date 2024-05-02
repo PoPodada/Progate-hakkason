@@ -1,4 +1,6 @@
 import React from "react";
+import CreateTeamModal from "./CreateTeamModal";
+
 import { useAuthContext } from "../utils/AuthContext";
 import TeamPreview from "./TeamPreview";
 
@@ -15,7 +17,7 @@ const Home: React.FC = () => {
 
   return (
     <div>
-      <div className="text-slate-400">
+      <div className="">
         home
         <br />
         {auth.user ? "ログイン中" : "未ログイン"}
@@ -25,12 +27,14 @@ const Home: React.FC = () => {
         <button onClick={onClickLogout}>logout</button>
         <br />
         <div />
-        <div className="max-w-[900px] mx-auto mt-16">
-          <h2 className="text-2xl font-bold">入っているチーム一覧</h2>
-          <TeamPreview></TeamPreview>
+        <div className="max-w-[900px] mx-auto mt-10">
+          <CreateTeamModal></CreateTeamModal>
+          <div className="mt-10">
+            <h2 className="text-2xl font-bold">入っているチーム一覧</h2>
+            <TeamPreview></TeamPreview>
+          </div>
         </div>
       </div>
-      <div />
     </div>
   );
 };
