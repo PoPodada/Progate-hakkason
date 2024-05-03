@@ -1,7 +1,5 @@
 import {
-  CollectionReference,
   DocumentData,
-  DocumentReference,
   FieldValue,
   FirestoreDataConverter,
   QueryDocumentSnapshot,
@@ -13,6 +11,11 @@ import {
 // 各スキーマのバージョン
 const userSchemaVer = 1;
 const teamSchemaVer = 1;
+
+// DB名
+// stringで指定した場合、変更が生じた際に変更箇所が多くなりバグの原因になるため、変数で管理する
+export const UsersDBName = "users";
+export const TeamsDBName = "teams";
 
 // Schema
 type DefaultDBSchema = {
@@ -31,12 +34,12 @@ type UsersDBSchema = DefaultDBSchema & {
 type TeamsDBSchema = DefaultDBSchema & {
   name: string;
   // メモ: DocumentReferenceだとcollectionの名前変更に対して耐性がないので、stringにuidを入れる
-  teamMembers: string[]; // uid[]
+  teamMembers: string[]; // documentのidを入れる
 };
 
 type MeetingsDBSchema = DefaultDBSchema & {
   time: Timestamp;
-  meetingMembers: DocumentReference<UsersDBSchema>[];
+  meetingMembers: string[]; // documentのidを入れる
 };
 
 // Converter
