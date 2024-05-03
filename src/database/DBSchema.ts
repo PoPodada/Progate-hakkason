@@ -16,7 +16,6 @@ const teamSchemaVer = 1;
 
 // Schema
 type DefaultDBSchema = {
-  id: string;
   createdAt?: FieldValue;
   updatedAt?: FieldValue;
   delFlag?: boolean;
@@ -24,13 +23,12 @@ type DefaultDBSchema = {
 };
 
 type UsersDBSchema = DefaultDBSchema & {
+  userId: string;
   name: string;
   iconUrl: string;
 };
 
 type TeamsDBSchema = DefaultDBSchema & {
-  id: string;
-  debug: string;
   name: string;
   // メモ: DocumentReferenceだとcollectionの名前変更に対して耐性がないので、stringにuidを入れる
   teamMembers: string[]; // uid[]
