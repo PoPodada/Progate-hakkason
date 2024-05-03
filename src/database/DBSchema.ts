@@ -11,17 +11,19 @@ import {
 // 各スキーマのバージョン
 const userSchemaVer = 1;
 const teamSchemaVer = 1;
+const meetingSchemaVer = 1;
 
 // DB名
 // stringで指定した場合、変更が生じた際に変更箇所が多くなりバグの原因になるため、変数で管理する
 export const UsersDBName = "users";
 export const TeamsDBName = "teams";
+export const MeetingsDBName = "meetings";
 
 // Schema
 type DefaultDBSchema = {
   createdAt?: FieldValue;
   updatedAt?: FieldValue;
-  delFlag?: boolean;
+  delFlag?: number;
   schemaVer?: number;
 };
 
@@ -38,6 +40,7 @@ type TeamsDBSchema = DefaultDBSchema & {
 };
 
 type MeetingsDBSchema = DefaultDBSchema & {
+  name: string;
   time: Timestamp;
   meetingMembers: string[]; // documentのidを入れる
 };
@@ -51,7 +54,7 @@ const converter = <T extends DefaultDBSchema>(
   toFirestore: function (data: T): WithFieldValue<DocumentData> {
     if (data.createdAt === undefined) data.createdAt = serverTimestamp();
     data.updatedAt = serverTimestamp();
-    data.delFlag = data.delFlag ?? false;
+    data.delFlag = data.delFlag ?? 0;
 
     return converterFunction.toFirestore(data);
   },
@@ -84,6 +87,19 @@ export const TeamsConverter = converter<TeamsDBSchema>({
   fromFirestore: function (
     snapshot: QueryDocumentSnapshot<TeamsDBSchema>
   ): TeamsDBSchema {
+    return snapshot.data();
+  },
+});
+// Meetings
+export const MeetingsConverter = converter<MeetingsDBSchema>({
+  toFirestore: function (data: MeetingsDBSchema): WithFieldValue<DocumentData> {
+    if (data.schemaVer === undefined) data.schemaVer = meetingSchemaVer;
+
+    return data;
+  },
+  fromFirestore: function (
+    snapshot: QueryDocumentSnapshot<MeetingsDBSchema>
+  ): MeetingsDBSchema {
     return snapshot.data();
   },
 });

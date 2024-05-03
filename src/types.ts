@@ -8,11 +8,12 @@ export interface User {
 export interface Team {
   id: string;
   name: string;
-  teamMembers: string[]; // uid[]
+  members: string[]; // uid[]
 }
 
 export interface Meeting {
   id: string;
+  name: string;
   time: Date;
-  meetingMembers: string[]; // uid[]
+  members: string[]; // uid[]
 }

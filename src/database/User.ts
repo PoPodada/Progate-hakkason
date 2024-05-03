@@ -1,7 +1,6 @@
 import {
   addDoc,
   collection,
-  getDoc,
   getDocs,
   limit,
   query,
@@ -25,7 +24,7 @@ export const getOrCreateUser = async (user: UserImpl): Promise<User | null> => {
     query(
       usersRef,
       where("userId", "==", user.uid),
-      where("delFlag", "==", false),
+      where("delFlag", "==", 0),
       limit(1)
     )
   );
@@ -49,16 +48,13 @@ export const getOrCreateUser = async (user: UserImpl): Promise<User | null> => {
     name: user.displayName ?? "",
     iconUrl: user.photoURL ?? "",
   });
-  // addした際に自動で生成される値があるので、取得を行う.
-  const result = await getDoc(docRef);
 
   const returnUser: User = {
-    id: result.id,
-    userId: result.data()!.userId,
-    name: result.data()!.name,
-    iconUrl: result.data()!.iconUrl,
+    id: docRef.id,
+    userId: user.uid,
+    name: user.displayName ?? "",
+    iconUrl: user.photoURL ?? "",
   };
-
   return returnUser;
 };
 
@@ -73,7 +69,7 @@ export const getUserFromUid = async (uid: string): Promise<User> => {
     query(
       usersRef,
       where("userId", "==", uid),
-      where("delFlag", "==", false),
+      where("delFlag", "==", 0),
       limit(1)
     )
   );
