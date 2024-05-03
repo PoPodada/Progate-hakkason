@@ -8,12 +8,12 @@ export interface User {
 export interface Team {
   id: string;
   name: string;
-  members: string[]; // uid[]
+  members: string[]; // ドキュメントID[]
 }
 
 export interface Meeting {
   id: string;
   name: string;
   time: Date;
-  members: string[]; // uid[]
+  members: string[]; // ドキュメントID[]
 }
