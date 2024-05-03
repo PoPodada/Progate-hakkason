@@ -8,7 +8,6 @@ import {
 import { auth, provider } from "../firebase";
 import { signInWithPopup, User } from "firebase/auth";
 import { getOrCreateUser } from "../database/User";
-import { testGetTeam } from "../database/Team";
 
 // Contextの処理
 export type AuthContextType = {
