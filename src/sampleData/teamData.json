@@ -1,14 +1,17 @@
 [
   {
     "id": "1",
-    "name": "お試し"
+    "name": "お試し",
+    "members": ["1", "2", "3"]
   },
   {
     "id": "2",
-    "name": "example"
+    "name": "example",
+    "members": ["2", "3"]
   },
   {
     "id": "3",
-    "name": "ハッカソンMTG"
+    "name": "ハッカソンMTG",
+    "members": ["3"]
   }
 ]

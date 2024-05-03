@@ -10,6 +10,7 @@ import data from "../sampleData/teamData.json";
 type team = {
   id: string;
   name: string;
+  members: string[];
 };
 
 const Home: React.FC = () => {
@@ -26,8 +27,11 @@ const Home: React.FC = () => {
   const [teams, setTeams] = useState<team[]>();
   useEffect(() => {
     const teamsData = data;
-    setTeams(teamsData);
-  }, [teams]);
+    const userTeam = teamsData.filter((team) => {
+      return team.members.includes("1"); // currentUserが含まれているデータのみを取得
+    });
+    setTeams(userTeam);
+  }, []);
 
   return (
     <div>
@@ -47,7 +51,7 @@ const Home: React.FC = () => {
             <h2 className="text-2xl font-bold">入っているチーム一覧</h2>
             {teams
               ? teams.map((team) => (
-                  <TeamPreview name={team.name}></TeamPreview>
+                  <TeamPreview key={team.id} name={team.name}></TeamPreview>
                 ))
               : ""}
 
