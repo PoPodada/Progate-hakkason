@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CreateTeamModal from "./CreateTeamModal";
 
 import { useAuthContext } from "../utils/AuthContext";
 import TeamPreview from "./TeamPreview";
 import MeetingCard from "./MeetingCard";
+
+import data from "../sampleData/teamData.json";
+
+type team = {
+  id: string;
+  name: string;
+  members: string[];
+};
 
 const Home: React.FC = () => {
   const auth = useAuthContext();
@@ -15,6 +23,15 @@ const Home: React.FC = () => {
   const onClickLogout = () => {
     auth.logout();
   };
+
+  const [teams, setTeams] = useState<team[]>();
+  useEffect(() => {
+    const teamsData = data;
+    const userTeam = teamsData.filter((team) => {
+      return team.members.includes("1"); // currentUserが含まれているデータのみを取得
+    });
+    setTeams(userTeam);
+  }, []);
 
   return (
     <div>
@@ -32,9 +49,13 @@ const Home: React.FC = () => {
           <CreateTeamModal></CreateTeamModal>
           <div className="mt-10">
             <h2 className="text-2xl font-bold">入っているチーム一覧</h2>
-            <TeamPreview></TeamPreview>
+            {teams
+              ? teams.map((team) => (
+                  <TeamPreview key={team.id} name={team.name}></TeamPreview>
+                ))
+              : ""}
 
-            <div className="max-w-[900px] mx-auto mt-24 mb-20">
+            <div className="mt-24 mb-20">
               <h2 className="text-2xl font-bold">あなたが参加する会議の予定</h2>
               <div className=" bg-neutral-300 py-12 px-12 rounded-md mt-2 space-y-10">
                 <MeetingCard></MeetingCard>
