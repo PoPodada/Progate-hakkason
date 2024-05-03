@@ -1,8 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CreateTeamModal from "./CreateTeamModal";
 
 import { useAuthContext } from "../utils/AuthContext";
 import TeamPreview from "./TeamPreview";
+
+import data from "../sampleData/teamData.json";
+
+type team = {
+  id: number;
+  name: string;
+};
 
 const Home: React.FC = () => {
   const auth = useAuthContext();
@@ -14,6 +21,12 @@ const Home: React.FC = () => {
   const onClickLogout = () => {
     auth.logout();
   };
+
+  const [teams, setTeams] = useState<team[]>();
+  useEffect(() => {
+    const teamsData = data;
+    setTeams(teamsData);
+  }, [teams]);
 
   return (
     <div>
@@ -31,7 +44,11 @@ const Home: React.FC = () => {
           <CreateTeamModal></CreateTeamModal>
           <div className="mt-10">
             <h2 className="text-2xl font-bold">入っているチーム一覧</h2>
-            <TeamPreview></TeamPreview>
+            {teams
+              ? teams.map((team) => (
+                  <TeamPreview name={team.name}></TeamPreview>
+                ))
+              : ""}
           </div>
         </div>
       </div>
