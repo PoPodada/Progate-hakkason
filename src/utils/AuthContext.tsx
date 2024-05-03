@@ -7,6 +7,7 @@ import {
 } from "react";
 import { auth, provider } from "../firebase";
 import { signInWithPopup, User } from "firebase/auth";
+import { getOrCreateUser } from "../database/User";
 
 // Contextの処理
 export type AuthContextType = {
@@ -36,8 +37,12 @@ export const AuthContextProvider: React.FC<Props> = (props: Props) => {
   // Authの状態を監視
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      console.log("onAuthStateChanged", user);
       setUser(user);
+
+      // データベースにユーザーの登録と取得を行う
+      if (user) {
+        getOrCreateUser(user);
+      }
     });
 
     return () => unsubscribe();
