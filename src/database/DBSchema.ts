@@ -32,8 +32,8 @@ type TeamsDBSchema = DefaultDBSchema & {
   id: string;
   debug: string;
   name: string;
-  meeting: CollectionReference<MeetingsDBSchema>;
-  teamMembers: DocumentReference<UsersDBSchema>[];
+  // メモ: DocumentReferenceだとcollectionの名前変更に対して耐性がないので、stringにuidを入れる
+  teamMembers: string[]; // uid[]
 };
 
 type MeetingsDBSchema = DefaultDBSchema & {
