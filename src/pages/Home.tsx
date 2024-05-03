@@ -8,7 +8,7 @@ import MeetingCard from "./MeetingCard";
 import data from "../sampleData/teamData.json";
 
 type team = {
-  id: number;
+  id: string;
   name: string;
 };
 
