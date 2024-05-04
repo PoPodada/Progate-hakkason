@@ -3,13 +3,14 @@ import MeetingCard from "../components/MeetingCard";
 import { useLocation } from "react-router-dom";
 
 const Team: React.FC = () => {
-  const teamName = useLocation().state;
+  const locationState = useLocation().state;
+  const teamName = locationState.state;
 
   const urlCopyHandler = async (url: string) => {
     try {
       await navigator.clipboard.writeText(url);
     } catch {
-      console.error("URLのコピーに失敗しました");
+      alert("URLのコピーに失敗しました");
     }
   };
 
