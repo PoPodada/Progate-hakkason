@@ -57,8 +57,6 @@ const Team: React.FC = () => {
           <div className="flex gap-x-2">
             <h2 className="text-xl  underline decoration-solid t">
               {location.href}
-              {/* push前に消す！！↓ */}
-              https://progate-hakkason--pr40-29-feature-914qu4p0.web.app/team/E8TDTj0yObwiMX3Sw8K6https://progate-hakkason--pr40-29-feature-914qu4p0.web.app/team/E8TDTj0yObwiMX3Sw8K6
             </h2>
             <Tooltip anchorSelect=".copy" content="copied!" isOpen={tooltip} />
             <button
