@@ -8,7 +8,7 @@ const Team: React.FC = () => {
       team
       <div className="max-w-[900px] mx-auto mt-10 mb-20">
         <MeetingCreate></MeetingCreate>
-        <h2 className="text-2xl font-bold mt-10">会議一覧</h2>
+        <h2 className="text-2xl font-bold mt-40">会議一覧</h2>
         <div className=" bg-neutral-300 py-12 px-12 rounded-md mt-2 space-y-10">
           <MeetingCard></MeetingCard>
           <MeetingCard></MeetingCard>

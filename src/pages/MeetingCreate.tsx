@@ -9,7 +9,7 @@ const Team: React.FC = () => {
           <h2 className="text-2xl font-bold">会議名</h2>
           <div className="py-2 text-xl tracking-wider">
             <input
-              className="border border-black p-1"
+              className=" p-1"
               type="text"
               id="name"
               name="name"
@@ -28,8 +28,8 @@ const Team: React.FC = () => {
           </div>
 
           <h2 className="text-2xl font-bold mt-12 mb-2">時間</h2>
-          <div className="text-xl tracking-wider">
-            <select name="time" className="border border-black">
+          <div className="text-xl tracking-wider ">
+            <select name="time" className="border border-neutral-800">
               <option value="0">0分</option>
               <option value="15">15分</option>
               <option value="30">30分</option>
@@ -54,25 +54,32 @@ const Team: React.FC = () => {
           <h2 className="text-2xl font-bold mt-12 mb-2">候補日</h2>
           <div className=" bg-neutral-300 py-6 px-6 rounded-lg text-xl tracking-wider space-y-6">
             {/*候補日の背景*/}
-            <button
-              className=" block w-full bg-white py-2 px-8 rounded text-left"
-              type="button"
-            >
-              候補日1 ○○/○○ ○○:○○~○○:○○
-            </button>
 
-            <button
-              className=" block w-full bg-white py-2 px-8 rounded text-left"
-              type="button"
-            >
+            <label className="block w-full relative py-2 px-8 rounded text-xl bg-white has-[:checked]:bg-sky-600 has-[:checked]:text-white cursor-pointe has-[:checked]:shadow-inner has-[:checked]:font-semibold">
+              <input
+                className="opacity-0 absolute left-0"
+                type="radio"
+                id="Date1"
+                name="schedule"
+                value="AA/AA AA:AA~AA:AA"
+              />
               候補日1 ○○/○○ ○○:○○~○○:○○
-            </button>
+            </label>
 
-            {/*buttonにすると普通のdivタグのときの余白にならない*/}
+            <label className="block w-full relative py-2 px-8 rounded text-xl bg-white has-[:checked]:bg-sky-600 has-[:checked]:text-white cursor-pointe has-[:checked]:shadow-inner has-[:checked]:font-semibold">
+              <input
+                className="opacity-0 absolute left-0"
+                type="radio"
+                id="Date1"
+                name="schedule"
+                value="AA/AA AA:AA~AA:AA"
+              />
+              候補日2 ○○/○○ ○○:○○~○○:○○
+            </label>
           </div>
 
           <button
-            className="block bg-neutral-300 py-2 px-8 rounded place-self-center mx-auto mt-10"
+            className="block relative opacity-50 bg-neutral-300 py-2 px-8 rounded place-self-center mx-auto mt-10 hover:opacity-100"
             type="button"
           >
             OK
