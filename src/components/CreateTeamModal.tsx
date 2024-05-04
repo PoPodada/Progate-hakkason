@@ -37,6 +37,7 @@ const CreateTeamModal: React.FC = () => {
   async function handleTeamCreate(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
+    
     const teamName = form.get("teamName");
     if (teamName === null) {
       return alert("チーム名を入力してください");
@@ -44,6 +45,7 @@ const CreateTeamModal: React.FC = () => {
 
     try {
       const { id } = await createTeam(teamName.toString(), userData);
+      console.log("Created team:", id);
       return navigate(`/team/${id}`, { state: teamName });
     } catch (error) {
       console.error("Failed to create team:", error);

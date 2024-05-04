@@ -46,7 +46,7 @@ const Team: React.FC = () => {
           {
             meetings? meetings.map((meeting)=>{
               return(
-                <MeetingCard detail={meeting}></MeetingCard>
+                <MeetingCard detail={meeting}/>
               )
             }):""
           }
