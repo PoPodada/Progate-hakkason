@@ -24,7 +24,7 @@ const Team: React.FC = () => {
 
             <div className="text-xl place-self-center px-2">～</div>
             <label htmlFor="start">End date：</label>
-            <input type="date" id="start" name="trip-start" value="" />
+            <input type="date" id="end" name="trip-end" value="" />
           </div>
 
           <h2 className="text-2xl font-bold mt-12 mb-2">時間</h2>
