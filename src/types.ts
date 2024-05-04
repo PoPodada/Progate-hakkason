@@ -9,6 +9,7 @@ export interface Team {
   id: string;
   name: string;
   members: string[]; // ドキュメントID[]
+  // meetings: string[]; 
 }
 
 export interface Meeting {

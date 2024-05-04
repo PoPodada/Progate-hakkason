@@ -4,10 +4,9 @@ import CreateTeamModal from "../components/CreateTeamModal";
 import { useAuthContext } from "../utils/AuthContext";
 import TeamPreview from "../components/TeamPreview";
 import MeetingCard from "../components/MeetingCard";
-
-// import data from "../sampleData/teamData.json";
-import { getTeamFromId, getTeamListFromUid } from "../database/Team";
+import { getTeamListFromUid } from "../database/Team";
 import { getUserFromUid } from "../database/User";
+import { getTeamMeetingListFromTeamId } from "../database/Meeting";
 // import { set } from "firebase/database";
 
 type team = {
@@ -35,29 +34,24 @@ const Home: React.FC = () => {
   
   const [teams, setTeams] = useState<team[]>();
   const [userMeetings,setUserMeetings] = useState<meeting[]>();
-  let id = "";
+  
   useEffect(() => {
     (async () => {
       const userId = user?.uid ? user.uid:"";
       const userInfo = await getUserFromUid(userId);
-      id = userInfo.id;
-      console.log(id,"getuserId")
-      const userTeamList = await getTeamListFromUid(id);
+      const userTeamList = await getTeamListFromUid(userInfo.id);
       console.log(userTeamList,"userteamlist")
+      setTeams(userTeamList)
       
+      //ここを直したいけど、会議の情報が取れない
       
+      // const userMeetingLists = userTeamList.map((team)=>{
+      //   return team.meetings
+      // }).flat(1);
+      // setUserMeetings(userMeetingLists)
     })();
     
     
-    // const userTeam = teamsData.filter((team) => {
-    //   return team.members.includes(userId); // currentUserが含まれているデータのみを取得
-    // });
-    // setTeams(userTeam);
-    // const userMeetingList = userTeam.map((team) => {
-    //   return team.meetings
-    // } 
-    // ).flat(1);
-    // setUserMeetings(userMeetingList);
 
     
   }, []);

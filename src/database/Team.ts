@@ -2,6 +2,7 @@ import {
   addDoc,
   collection,
   doc,
+  getDoc,
   getDocs,
   limit,
   orderBy,
@@ -18,7 +19,7 @@ const teamsRef = collection(db, TeamsDBName).withConverter(TeamsConverter);
 
 /**
  * ユーザーのuidから所属しているチームのリストを取得
- * @param uid ユーザーのuid
+ * @param uid ユーザーのドキュメントid
  * @param size 取得する数
  * @returns types.tsのTeam型の配列
  */
@@ -30,7 +31,7 @@ export const getTeamListFromUid = async (
     query(
       teamsRef,
       where("teamMembers", "array-contains", uid),
-      where("delFlag", "==", 1),
+      where("delFlag", "==", 0),
       limit(size),
       orderBy("updatedAt", "desc")
     )
@@ -55,20 +56,17 @@ export const getTeamListFromUid = async (
  * @returns types.tsのTeam型
  */
 export const getTeamFromId = async (teamId: string): Promise<Team | null> => {
-  const querySnapshot = await getDocs(
-    query(
-      teamsRef,
-      where("delFlag", "==", 0),
-      where("id", "==", teamId),
-      limit(1)
-    )
-  );
+  const docRef = doc(teamsRef, teamId);
+  const result = await getDoc(docRef);
 
-  if (querySnapshot.size === 0) {
+  if (!result.exists()) {
     return null;
   }
 
-  const result = querySnapshot.docs[0];
+  if (result.data().delFlag === 1) {
+    return null;
+  }
+
   const returnTeam: Team = {
     id: result.id,
     name: result.data().name,
