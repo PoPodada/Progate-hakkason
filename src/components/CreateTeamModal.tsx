@@ -4,6 +4,7 @@ import { createTeam } from "../database/Team";
 import { useNavigate } from "react-router-dom";
 import userData from "../sampleData/userData.json";
 
+
 const customStyles = {
   overlay: {
     top: 0,

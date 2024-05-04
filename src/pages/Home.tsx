@@ -5,7 +5,9 @@ import { useAuthContext } from "../utils/AuthContext";
 import TeamPreview from "../components/TeamPreview";
 import MeetingCard from "../components/MeetingCard";
 
-import data from "../sampleData/teamData.json";
+// import data from "../sampleData/teamData.json";
+import { getTeamFromId, getTeamListFromUid } from "../database/Team";
+import { getUserFromUid } from "../database/User";
 // import { set } from "firebase/database";
 
 type team = {
@@ -22,7 +24,7 @@ export type meeting = {
 
 const Home: React.FC = () => {
   const auth = useAuthContext();
-
+  const {user} = useAuthContext();
   const onClickLogin = () => {
     auth.login();
   };
@@ -30,21 +32,34 @@ const Home: React.FC = () => {
   const onClickLogout = () => {
     auth.logout();
   };
-
+  
   const [teams, setTeams] = useState<team[]>();
   const [userMeetings,setUserMeetings] = useState<meeting[]>();
-  const userId = "2";
+  let id = "";
   useEffect(() => {
-    const teamsData = data;
-    const userTeam = teamsData.filter((team) => {
-      return team.members.includes(userId); // currentUserが含まれているデータのみを取得
-    });
-    setTeams(userTeam);
-    const userMeetingList = userTeam.map((team) => {
-      return team.meetings
-    } 
-    ).flat(1);
-    setUserMeetings(userMeetingList);
+    (async () => {
+      const userId = user?.uid ? user.uid:"";
+      const userInfo = await getUserFromUid(userId);
+      id = userInfo.id;
+      console.log(id,"getuserId")
+      const userTeamList = await getTeamListFromUid(id);
+      console.log(userTeamList,"userteamlist")
+      
+      
+    })();
+    
+    
+    // const userTeam = teamsData.filter((team) => {
+    //   return team.members.includes(userId); // currentUserが含まれているデータのみを取得
+    // });
+    // setTeams(userTeam);
+    // const userMeetingList = userTeam.map((team) => {
+    //   return team.meetings
+    // } 
+    // ).flat(1);
+    // setUserMeetings(userMeetingList);
+
+    
   }, []);
 
   return (
