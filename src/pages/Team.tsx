@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { meeting } from "../pages/Home";
 
-//propsで会議idを受け取る
+//propsで会議idを受け取る予定
 const Team: React.FC = () => {
   const [meetings,setMeetings] = useState<meeting[]>();
   useEffect(() => {
