@@ -40,18 +40,25 @@ const Team: React.FC = () => {
 
   return (
     <div>
-      <Link
-        to="/"
-        className="block  bg-neutral-300 py-4 w-36 rounded mt-16 ml-20 text-xl text-center align-middle justify-self-auto hover:underline underline-offset-2"
-      >
-        HOME
-      </Link>
-      <div className="max-w-[900px] mx-auto mt-10 mb-20 tracking-wider">
-        <div className="flex justify-between items-end">
-          <h2 className="text-4xl font-bold">{teamName}</h2>
+      <div>
+        <Link
+          to="/"
+          className="block  bg-neutral-300 py-4 w-36 rounded mt-16 ml-20 text-xl text-center align-middle justify-self-auto hover:underline underline-offset-2"
+        >
+          HOME
+        </Link>
+        <div className="max-w-[900px] mx-auto mt-10 mb-20 tracking-wider">
+          <div className=" items-end">
+            <h1 className="text-5xl  text-neutral-700  font-bold  py-2 pl-4 border-b-4 drop-shadow-sm mb-8">
+              {teamName}
+            </h1>
+          </div>
+
           <div className="flex gap-x-2">
-            <h2 className="text-xl  underline decoration-solid ">
+            <h2 className="text-xl  underline decoration-solid t">
               {location.href}
+              {/* push前に消す！！↓ */}
+              https://progate-hakkason--pr40-29-feature-914qu4p0.web.app/team/E8TDTj0yObwiMX3Sw8K6https://progate-hakkason--pr40-29-feature-914qu4p0.web.app/team/E8TDTj0yObwiMX3Sw8K6
             </h2>
             <Tooltip anchorSelect=".copy" content="copied!" isOpen={tooltip} />
             <button
@@ -83,21 +90,23 @@ const Team: React.FC = () => {
             </button>
           </div>
         </div>
-        <h2 className="text-2xl font-bold mt-20 mb-4">メンバー</h2>
-        <div className=" text-xl tracking-wider flex gap-x-2">
-          <div className=" bg-neutral-300 h-12 w-12 rounded-full "></div>
-          <div className=" bg-neutral-300 h-12 w-12 rounded-full "></div>
-          <div className=" bg-neutral-300 h-12 w-12 rounded-full "></div>
-        </div>
-        <div className="max-w-[900px] mx-auto mt-10 mb-20">
-          <MeetingCreate></MeetingCreate>
-          <h2 className="text-2xl font-bold mt-40">会議一覧</h2>
-          <div className=" bg-neutral-300 py-12 px-12 rounded-md mt-2 space-y-10">
-            {meetings
-              ? meetings.map((meeting) => {
-                  return <MeetingCard detail={meeting} />;
-                })
-              : ""}
+        <div className="max-w-[900px] mx-auto mt-10 mb-20 tracking-wider">
+          <h2 className="text-2xl font-bold mt-20 mb-4">メンバー</h2>
+          <div className=" text-xl tracking-wider flex gap-x-2">
+            <div className=" bg-neutral-300 h-12 w-12 rounded-full "></div>
+            <div className=" bg-neutral-300 h-12 w-12 rounded-full "></div>
+            <div className=" bg-neutral-300 h-12 w-12 rounded-full "></div>
+          </div>
+          <div className="max-w-[900px] mx-auto mt-10 mb-20">
+            <MeetingCreate></MeetingCreate>
+            <h2 className="text-2xl font-bold mt-40">会議一覧</h2>
+            <div className=" bg-neutral-300 py-12 px-12 rounded-md mt-2 space-y-10">
+              {meetings
+                ? meetings.map((meeting) => {
+                    return <MeetingCard detail={meeting} />;
+                  })
+                : ""}
+            </div>
           </div>
         </div>
       </div>
