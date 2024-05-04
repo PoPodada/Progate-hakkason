@@ -3,7 +3,7 @@ import React from "react";
 const Team: React.FC = () => {
   return (
     <div>
-      team
+      
       <div className="mx-auto mt-10  px-16 py-8 bg-neutral-100 shadow-lg border-t-8 border-neutral-500">
         <div className="max-w-[900px] mx-auto mt-10 mb-20">
           <h2 className="text-2xl font-bold">会議名</h2>
