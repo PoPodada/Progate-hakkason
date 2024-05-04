@@ -19,18 +19,18 @@ const teamsRef = collection(db, TeamsDBName).withConverter(TeamsConverter);
 
 /**
  * ユーザーのuidから所属しているチームのリストを取得
- * @param uid ユーザーのドキュメントid
+ * @param did ユーザーのドキュメントid
  * @param size 取得する数
  * @returns types.tsのTeam型の配列
  */
 export const getTeamListFromUid = async (
-  uid: string,
+  did: string,
   size: number = 10
 ): Promise<Team[]> => {
   const querySnapshot = await getDocs(
     query(
       teamsRef,
-      where("teamMembers", "array-contains", uid),
+      where("teamMembers", "array-contains", did),
       where("delFlag", "==", 1),
       limit(size),
       orderBy("updatedAt", "desc")
@@ -100,10 +100,10 @@ export const createTeam = async (
 
 /**
  * チームを削除
- * @param teamId チームID
+ * @param teamDid チームID
  */
-export const deleteTeam = async (teamId: string) => {
-  const teamRef = doc(teamsRef, teamId);
+export const deleteTeam = async (teamDid: string) => {
+  const teamRef = doc(teamsRef, teamDid);
 
   await updateDoc(teamRef, {
     delFlag: 1,
@@ -112,18 +112,18 @@ export const deleteTeam = async (teamId: string) => {
 
 /**
  * チームにメンバーを追加
- * @param teamId チームID
+ * @param teamDid チームID
  * @param user 追加するユーザー
  * @returns types.tsのTeam型 メンバー追加後のチーム情報
  * @throws チームが見つからない場合のエラー
  */
 export const addTeamMember = async (
-  teamId: string,
+  teamDid: string,
   user: User
 ): Promise<Team> => {
-  const teamRef = doc(teamsRef, teamId);
+  const teamRef = doc(teamsRef, teamDid);
   // データ取得後に変更があった場合に対応するため再度取得
-  const team = await getTeamFromId(teamId);
+  const team = await getTeamFromId(teamDid);
 
   if (!team) {
     throw new Error("Team not found");
@@ -134,7 +134,7 @@ export const addTeamMember = async (
   });
 
   return {
-    id: teamId,
+    id: teamDid,
     name: team.name,
     members: [...team.members, user.id],
   };
@@ -142,11 +142,11 @@ export const addTeamMember = async (
 
 /**
  * チームのタイムスタンプを更新
- * @param teamId チームID
+ * @param teamDid チームID
  */
-export const updateTeamTimestamp = async (teamId: string) => {
+export const updateTeamTimestamp = async (teamDid: string) => {
   const teamRef = collection(db, TeamsDBName);
-  const docRef = doc(teamRef, teamId);
+  const docRef = doc(teamRef, teamDid);
 
   await updateDoc(docRef, {
     updatedAt: serverTimestamp(),
