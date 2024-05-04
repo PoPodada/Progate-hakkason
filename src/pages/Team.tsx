@@ -7,7 +7,6 @@ import data from "../sampleData/teamData.json";
 import { useEffect } from "react";
 import { useState } from "react";
 import { meeting } from "../pages/Home";
-import { useLocation } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
 import { useParams } from "react-router-dom";
 import { getTeamFromId } from "../database/Team";
@@ -15,6 +14,7 @@ import { getTeamFromId } from "../database/Team";
 //propsで会議idを受け取る予定
 const Team: React.FC = () => {
   const [meetings, setMeetings] = useState<meeting[]>();
+  const [tooltip, setTooltip] = useState(false);
   useEffect(() => {
     let teamid = "1";
     const teamData = data;
@@ -22,7 +22,6 @@ const Team: React.FC = () => {
     console.log(MeetingList[0].meetings);
     setMeetings(MeetingList[0].meetings);
   }, []);
-
 
   const [teamName, setTeamName] = useState("");
 
@@ -39,13 +38,11 @@ const Team: React.FC = () => {
     }
   };
 
-
   const { id } = useParams();
   if (!id) {
     return;
   }
   useEffect(() => {
-     
     (async () => {
       try {
         const returnTeam = await getTeamFromId(id);
@@ -58,7 +55,7 @@ const Team: React.FC = () => {
       }
     })();
   }, []);
-return (
+  return (
     <div>
       <div>
         <Link
@@ -126,8 +123,6 @@ return (
                 : ""}
             </div>
           </div>
-  
-
         </div>
       </div>
     </div>
