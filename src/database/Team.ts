@@ -19,7 +19,7 @@ const teamsRef = collection(db, TeamsDBName).withConverter(TeamsConverter);
 
 /**
  * ユーザーのuidから所属しているチームのリストを取得
- * @param uid ユーザーのドキュメントid
+ * @param uid ユーザーのDocumentId
  * @param size 取得する数
  * @returns types.tsのTeam型の配列
  */

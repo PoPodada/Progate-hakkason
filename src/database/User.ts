@@ -139,11 +139,16 @@ export const updateOrCreateUser = async (
   return returnUser;
 };
 
-export const updateCalendar = async (uid: string, events: string[]) => {
+/**
+ * カレンダー情報を更新する
+ * @param did ユーザーの
+ * @param events カレンダー情報
+ */
+export const updateCalendar = async (did: string, events: string[]) => {
   const querySnapshot = await getDocs(
     query(
       usersRef,
-      where("userId", "==", uid),
+      where("userId", "==", did),
       where("delFlag", "==", 0),
       limit(1)
     )

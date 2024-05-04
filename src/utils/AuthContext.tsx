@@ -47,8 +47,27 @@ export const AuthContextProvider: React.FC<Props> = (props: Props) => {
 
       (async () => {
         if (user !== null) {
-          const data = await getUserFromUid(user.uid);
-          setCachedDuser(data);
+          user.getIdTokenResult().then((idTokenResult) => {
+            console.log(idTokenResult.claims, "claims");
+          });
+          // ユーザー情報を取得
+          let userDocument = await getUserFromUid(user.uid);
+
+          // トークンが取得できた場合はカレンダー情報を取得
+          if (userDocument !== null) {
+            const events = await getCalendarEvents(userDocument.accessToken);
+
+            if (events !== null) {
+              userDocument = await updateOrCreateUser(
+                user,
+                userDocument.accessToken,
+                JSON.stringify(events)
+              );
+              console.log(events, "events");
+            }
+          }
+
+          setCachedDuser(userDocument);
         }
       })();
     });
@@ -65,7 +84,7 @@ export const AuthContextProvider: React.FC<Props> = (props: Props) => {
     // アクセストークンが取得できた場合はカレンダー情報を取得
     // その後ユーザー情報を更新
     if (credintial?.accessToken !== undefined) {
-      const data = await getCalendarEvents(credintial.accessToken);
+      const data = (await getCalendarEvents(credintial.accessToken)) ?? [];
 
       const documentUser = await updateOrCreateUser(
         result.user,
