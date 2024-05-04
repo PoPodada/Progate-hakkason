@@ -29,7 +29,6 @@ const CreateTeamModal: React.FC = () => {
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [userinfo,setUserinfo] = React.useState<User>();
   const { user } = useAuthContext()
-  console.log(user,"user")
   function openModal() {
     setIsOpen(true);
   }
@@ -39,10 +38,9 @@ const CreateTeamModal: React.FC = () => {
   }
   useEffect(()=> {
     (async ()=> {
-      console.log(user)
+
     if(user){
       const userinfo = await getUserFromUid(user.uid)
-      console.log(userinfo,"id")
       setUserinfo(userinfo)
     }
     })()
@@ -52,11 +50,6 @@ const CreateTeamModal: React.FC = () => {
   async function handleTeamCreate(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    
-    
-    
-    
-    console.log(userinfo, "userinfo")
     const teamName = form.get("teamName");
     if (teamName === null) {
       return alert("チーム名を入力してください");
