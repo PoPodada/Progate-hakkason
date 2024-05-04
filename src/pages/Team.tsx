@@ -18,7 +18,6 @@ const Team: React.FC = () => {
     let teamid = "1";
     const teamData = data;
     const MeetingList = teamData.filter((data) => data.id === teamid);
-    console.log(MeetingList[0].meetings)
     setMeetings(MeetingList[0].meetings)
   }, []);
 

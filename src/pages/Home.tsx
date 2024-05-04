@@ -30,7 +30,6 @@ const Home: React.FC = () => {
   const onClickLogout = () => {
     auth.logout();
   };
-
   const [teams, setTeams] = useState<team[]>();
   const [userMeetings,setUserMeetings] = useState<meeting[]>();
   const userId = "2";
@@ -45,6 +44,7 @@ const Home: React.FC = () => {
     } 
     ).flat(1);
     setUserMeetings(userMeetingList);
+    console.log(auth.user?.displayName)
   }, []);
 
   return (
@@ -60,6 +60,7 @@ const Home: React.FC = () => {
         <br />
         <div />
         <div className="max-w-[900px] mx-auto mt-10">
+          
           <CreateTeamModal></CreateTeamModal>
           <div className="mt-10">
             <h2 className="text-2xl font-bold">入っているチーム一覧</h2>
@@ -74,7 +75,6 @@ const Home: React.FC = () => {
               <div className=" bg-neutral-300 py-12 px-12 rounded-md mt-2 space-y-10">
                 {
                   userMeetings ? userMeetings.map((meeting)=>{
-                    console.log(meeting)
                     return (
                     <MeetingCard  detail={meeting}></MeetingCard>
                   )
