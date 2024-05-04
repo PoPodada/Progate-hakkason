@@ -9,7 +9,7 @@ import { AuthContextProvider } from "./utils/AuthContext.tsx";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
-  { path: "/team", element: <Team /> },
+  { path: "/team/:id", element: <Team /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
