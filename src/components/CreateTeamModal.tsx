@@ -2,7 +2,8 @@ import React from "react";
 import Modal from "react-modal";
 import { createTeam } from "../database/Team";
 import { useNavigate } from "react-router-dom";
-import userData from "../sampleData/userData.json";
+// import userData from "../sampleData/userData.json";
+import { useAuthContext } from "../utils/AuthContext";
 
 const customStyles = {
   overlay: {
@@ -24,7 +25,8 @@ Modal.setAppElement("#root");
 
 const CreateTeamModal: React.FC = () => {
   const [modalIsOpen, setIsOpen] = React.useState(false);
-
+  const { user } = useAuthContext()
+  console.log(user,"user")
   function openModal() {
     setIsOpen(true);
   }
@@ -37,13 +39,20 @@ const CreateTeamModal: React.FC = () => {
   async function handleTeamCreate(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    
+    const userData = {
+      "id":user?.uid || "",
+      "userId":user?.uid|| "",
+      "name":user?.displayName|| "",
+      "iconUrl":user?.photoURL|| ""
+    }
+    console.log(userData)
     const teamName = form.get("teamName");
     if (teamName === null) {
       return alert("チーム名を入力してください");
     }
 
     try {
+      
       const { id } = await createTeam(teamName.toString(), userData);
       console.log("Created team:", id);
       return navigate(`/team/${id}`, { state: teamName });
