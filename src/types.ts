@@ -3,16 +3,17 @@ export interface User {
   userId: string; // アカウントのuid
   name: string;
   iconUrl: string;
+  accessToken: string;
 }
 
 export interface Team {
-  id: string;
+  id: string; // ドキュメントID
   name: string;
   members: string[]; // ドキュメントID[]
 }
 
 export interface Meeting {
-  id: string;
+  id: string; // ドキュメントID
   name: string;
   time: Date;
   members: string[]; // ドキュメントID[]
