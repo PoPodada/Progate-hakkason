@@ -1,5 +1,5 @@
 import React from "react";
-import MeetingCard from "./MeetingCard";
+import MeetingCard from "../components/MeetingCard";
 
 const Team: React.FC = () => {
   return (
