@@ -25,8 +25,8 @@ Modal.setAppElement("#root");
 
 const CreateTeamModal: React.FC = () => {
   const [modalIsOpen, setIsOpen] = React.useState(false);
-  const { user } = useAuthContext()
-  console.log(user,"user")
+  const { user } = useAuthContext();
+  console.log(user, "user");
   function openModal() {
     setIsOpen(true);
   }
@@ -40,22 +40,21 @@ const CreateTeamModal: React.FC = () => {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     const userData = {
-      "id":user?.uid || "",
-      "userId":user?.uid|| "",
-      "name":user?.displayName|| "",
-      "iconUrl":user?.photoURL|| ""
-    }
-    console.log(userData)
+      id: user?.uid || "",
+      userId: user?.uid || "",
+      name: user?.displayName || "",
+      iconUrl: user?.photoURL || "",
+    };
+    console.log(userData);
     const teamName = form.get("teamName");
     if (teamName === null) {
       return alert("チーム名を入力してください");
     }
 
     try {
-      
       const { id } = await createTeam(teamName.toString(), userData);
       console.log("Created team:", id);
-      return navigate(`/team/${id}`, { state: teamName });
+      return navigate(`/team/${id}`);
     } catch (error) {
       console.error("Failed to create team:", error);
       alert("チームの作成に失敗しました");
