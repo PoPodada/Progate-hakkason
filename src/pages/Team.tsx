@@ -3,7 +3,7 @@ import MeetingCard from "../components/MeetingCard";
 import { useLocation } from "react-router-dom";
 
 const Team: React.FC = () => {
-  const locationState = useLocation().state;
+  const locationState = useLocation();
   const teamName = locationState.state;
 
   const urlCopyHandler = async (url: string) => {
