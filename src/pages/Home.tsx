@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import CreateTeamModal from "./CreateTeamModal";
+import CreateTeamModal from "../components/CreateTeamModal";
 
 import { useAuthContext } from "../utils/AuthContext";
-import TeamPreview from "./TeamPreview";
-import MeetingCard from "./MeetingCard";
+import TeamPreview from "../components/TeamPreview";
+import MeetingCard from "../components/MeetingCard";
 
 import data from "../sampleData/teamData.json";
 
