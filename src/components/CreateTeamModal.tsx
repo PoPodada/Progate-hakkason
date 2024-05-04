@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import Modal from "react-modal";
 import { createTeam } from "../database/Team";
 import { useNavigate } from "react-router-dom";
-import userData from "../sampleData/userData.json";
 import { useAuthContext } from "../utils/AuthContext";
 import { getUserFromUid } from "../database/User";
 import { User } from "../types";
