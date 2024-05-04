@@ -1,6 +1,8 @@
 import React from "react";
-import MeetingCard from "./MeetingCard";
-import MeetingCreate from "./MeetingCreate";
+
+import MeetingCreate from "../components/MeetingCreate";
+
+import MeetingCard from "../components/MeetingCard";
 
 const Team: React.FC = () => {
   return (
