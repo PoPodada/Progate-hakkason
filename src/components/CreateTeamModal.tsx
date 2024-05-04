@@ -73,12 +73,12 @@ const CreateTeamModal: React.FC = () => {
   }
 
   return (
-    <div className="">
+    <div className="mt-24">
       <button
         onClick={openModal}
-        className="bg-neutral-200 rounded-md py-4 px-8 mt-10 mx-auto block"
+        className="bg-white text-neutral-600 font-extrabold  box-border border-4 border-neutral-500  hover:bg-neutral-300 rounded-md py-4 px-10 mt-10 mx-auto shadow-md tracking-wider  text-2xl  block hover:shadow-inner-2xl  hover:text-white hover:font-semibold hover:border-neutral-50"
       >
-        チーム作成
+        チームを作成
       </button>
       <Modal
         isOpen={modalIsOpen}
