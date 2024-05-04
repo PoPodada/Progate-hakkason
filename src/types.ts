@@ -4,6 +4,7 @@ export interface User {
   name: string;
   iconUrl: string;
   accessToken: string;
+  events: Event[];
 }
 
 export interface Team {

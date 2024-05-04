@@ -4,6 +4,8 @@ import {
   getDocs,
   limit,
   query,
+  serverTimestamp,
+  setDoc,
   updateDoc,
   where,
 } from "firebase/firestore";
@@ -42,6 +44,7 @@ export const getOrCreateUser = async (
       name: result.data().name,
       iconUrl: result.data().iconUrl,
       accessToken: result.data().accsessToken,
+      events: JSON.parse(result.data().events),
     };
 
     return returnUser;
@@ -53,6 +56,8 @@ export const getOrCreateUser = async (
     name: user.displayName ?? "",
     iconUrl: user.photoURL ?? "",
     accsessToken: accsessToken,
+    events: "",
+    createdAt: serverTimestamp(),
   });
 
   const returnUser: User = {
@@ -61,13 +66,21 @@ export const getOrCreateUser = async (
     name: user.displayName ?? "",
     iconUrl: user.photoURL ?? "",
     accessToken: accsessToken,
+    events: [],
   };
   return returnUser;
 };
 
+/**
+ * Userの情報を取得し、存在しない場合は新規作成する
+ * また情報の更新も行う
+ * @param user Authのユーザー情報
+ * @returns types.tsのUser型
+ */
 export const updateOrCreateUser = async (
   user: UserImpl,
-  accsessToken: string
+  accsessToken: string,
+  events: string
 ): Promise<User> => {
   const querySnapshot = await getDocs(
     query(
@@ -82,9 +95,14 @@ export const updateOrCreateUser = async (
   if (querySnapshot.size > 0) {
     // 更新処理
     const docRef = querySnapshot.docs[0].ref;
-    await updateDoc(docRef, {
-      accsessToken: accsessToken,
-    });
+    await setDoc(
+      docRef,
+      {
+        accsessToken: accsessToken,
+        events: events,
+      },
+      { merge: true }
+    );
 
     // 返却処理
     const result = querySnapshot.docs[0];
@@ -94,6 +112,7 @@ export const updateOrCreateUser = async (
       name: result.data().name,
       iconUrl: result.data().iconUrl,
       accessToken: result.data().accsessToken,
+      events: JSON.parse(result.data().events),
     };
 
     return returnUser;
@@ -105,6 +124,8 @@ export const updateOrCreateUser = async (
     name: user.displayName ?? "",
     iconUrl: user.photoURL ?? "",
     accsessToken: accsessToken,
+    events: "",
+    createdAt: serverTimestamp(),
   });
 
   const returnUser: User = {
@@ -113,8 +134,34 @@ export const updateOrCreateUser = async (
     name: user.displayName ?? "",
     iconUrl: user.photoURL ?? "",
     accessToken: accsessToken,
+    events: [],
   };
   return returnUser;
+};
+
+/**
+ * カレンダー情報を更新する
+ * @param did ユーザーの
+ * @param events カレンダー情報
+ */
+export const updateCalendar = async (did: string, events: string[]) => {
+  const querySnapshot = await getDocs(
+    query(
+      usersRef,
+      where("userId", "==", did),
+      where("delFlag", "==", 0),
+      limit(1)
+    )
+  );
+
+  // ユーザーが存在する場合はそのデータを返す
+  if (querySnapshot.size > 0) {
+    // 更新処理
+    const docRef = querySnapshot.docs[0].ref;
+    await updateDoc(docRef, {
+      events: events,
+    });
+  }
 };
 
 /**
@@ -142,6 +189,7 @@ export const getUserFromUid = async (uid: string): Promise<User> => {
       name: result.data().name,
       iconUrl: result.data().iconUrl,
       accessToken: result.data().accsessToken,
+      events: JSON.parse(result.data().events),
     };
 
     return returnUser;
@@ -154,6 +202,7 @@ export const getUserFromUid = async (uid: string): Promise<User> => {
     name: "存在しないユーザー",
     iconUrl: "",
     accessToken: "",
+    events: [],
   };
   return returnUser;
 };

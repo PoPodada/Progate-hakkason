@@ -32,6 +32,7 @@ type UsersDBSchema = DefaultDBSchema & {
   name: string;
   iconUrl: string;
   accsessToken: string;
+  events: string;
 };
 
 type TeamsDBSchema = DefaultDBSchema & {
@@ -53,7 +54,6 @@ const converter = <T extends DefaultDBSchema>(
   converterFunction: FirestoreDataConverter<T>
 ): FirestoreDataConverter<T> => ({
   toFirestore: function (data: T): WithFieldValue<DocumentData> {
-    if (data.createdAt === undefined) data.createdAt = serverTimestamp();
     data.updatedAt = serverTimestamp();
     data.delFlag = data.delFlag ?? 0;
 
