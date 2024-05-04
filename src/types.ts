@@ -3,6 +3,7 @@ export interface User {
   userId: string; // アカウントのuid
   name: string;
   iconUrl: string;
+  accessToken: string;
 }
 
 export interface Team {

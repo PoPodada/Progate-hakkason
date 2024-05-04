@@ -7,7 +7,8 @@ import {
 } from "react";
 import { auth, provider } from "../firebase";
 import { signInWithPopup, User } from "firebase/auth";
-import { getOrCreateUser } from "../database/User";
+import { updateOrCreateUser } from "../database/User";
+import { GoogleAuthProvider } from "firebase/auth/cordova";
 
 // Contextの処理
 export type AuthContextType = {
@@ -38,11 +39,6 @@ export const AuthContextProvider: React.FC<Props> = (props: Props) => {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setUser(user);
-
-      // データベースにユーザーの登録と取得を行う
-      if (user) {
-        getOrCreateUser(user);
-      }
     });
 
     return () => unsubscribe();
@@ -50,7 +46,13 @@ export const AuthContextProvider: React.FC<Props> = (props: Props) => {
 
   // login, logoutの処理
   const login = async () => {
-    await signInWithPopup(auth, provider);
+    const result = await signInWithPopup(auth, provider);
+
+    const credintial = GoogleAuthProvider.credentialFromResult(result);
+
+    if (credintial?.accessToken !== undefined) {
+      updateOrCreateUser(result.user, credintial.accessToken);
+    }
   };
 
   const logout = async () => {
