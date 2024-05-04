@@ -31,6 +31,7 @@ type UsersDBSchema = DefaultDBSchema & {
   userId: string;
   name: string;
   iconUrl: string;
+  accsessToken: string;
 };
 
 type TeamsDBSchema = DefaultDBSchema & {

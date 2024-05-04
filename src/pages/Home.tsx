@@ -6,6 +6,7 @@ import TeamPreview from "../components/TeamPreview";
 import MeetingCard from "../components/MeetingCard";
 
 import data from "../sampleData/teamData.json";
+import { signInWithRedirect } from "firebase/auth";
 
 type team = {
   id: string;
