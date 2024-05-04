@@ -20,7 +20,8 @@
     "react-dom": "^18.2.0",
     "react-google-calendar-api": "^2.3.0",
     "react-modal": "^3.16.1",
-    "react-router-dom": "^6.23.0"
+    "react-router-dom": "^6.23.0",
+    "react-tooltip": "^5.26.4"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
