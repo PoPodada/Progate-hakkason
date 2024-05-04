@@ -6,18 +6,9 @@ import {
   useState,
 } from "react";
 import { auth, provider } from "../firebase";
-import {
-  signInWithCustomToken,
-  signInWithPopup,
-  signInWithRedirect,
-  User,
-} from "firebase/auth";
+import { signInWithPopup, User } from "firebase/auth";
 import { updateOrCreateUser } from "../database/User";
-import {
-  GoogleAuthProvider,
-  signInWithCredential,
-} from "firebase/auth/cordova";
-import { getCalendarEvents } from "./GoogleAPI";
+import { GoogleAuthProvider } from "firebase/auth/cordova";
 
 // Contextの処理
 export type AuthContextType = {
@@ -55,24 +46,12 @@ export const AuthContextProvider: React.FC<Props> = (props: Props) => {
 
   // login, logoutの処理
   const login = async () => {
-    signInWithRedirect;
     const result = await signInWithPopup(auth, provider);
 
     const credintial = GoogleAuthProvider.credentialFromResult(result);
 
     if (credintial?.accessToken !== undefined) {
       updateOrCreateUser(result.user, credintial.accessToken);
-      console.log(credintial);
-
-      const date = new Date(2024, 4, 1, 0, 0, 0);
-
-      console.log(credintial.accessToken);
-      const events = await getCalendarEvents(
-        credintial.accessToken,
-        new Date(2024, 5, 1, 0, 0, 0),
-        new Date(2024, 6, 1, 0, 0, 0)
-      );
-      console.log(events);
     }
   };
 
