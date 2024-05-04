@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "react-modal";
 import { createTeam } from "../database/Team";
 import { useNavigate } from "react-router-dom";
-// import userData from "../sampleData/userData.json";
+import userData from "../sampleData/userData.json";
 import { useAuthContext } from "../utils/AuthContext";
+import { getUserFromUid } from "../database/User";
+import { User } from "../types";
 
 const customStyles = {
   overlay: {
@@ -25,8 +27,10 @@ Modal.setAppElement("#root");
 
 const CreateTeamModal: React.FC = () => {
   const [modalIsOpen, setIsOpen] = React.useState(false);
-  const { user } = useAuthContext();
-  console.log(user, "user");
+
+  const [userinfo,setUserinfo] = React.useState<User>();
+  const { user } = useAuthContext()
+
   function openModal() {
     setIsOpen(true);
   }
@@ -34,30 +38,38 @@ const CreateTeamModal: React.FC = () => {
   function closeModal() {
     setIsOpen(false);
   }
+  useEffect(()=> {
+    (async ()=> {
+
+    if(user){
+      const userinfo = await getUserFromUid(user.uid)
+      setUserinfo(userinfo)
+    }
+    })()
+  },[])
 
   const navigate = useNavigate();
   async function handleTeamCreate(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    const userData = {
-      id: user?.uid || "",
-      userId: user?.uid || "",
-      name: user?.displayName || "",
-      iconUrl: user?.photoURL || "",
-    };
-    console.log(userData);
+
     const teamName = form.get("teamName");
     if (teamName === null) {
       return alert("チーム名を入力してください");
     }
 
-    try {
-      const { id } = await createTeam(teamName.toString(), userData);
-      console.log("Created team:", id);
-      return navigate(`/team/${id}`);
-    } catch (error) {
-      console.error("Failed to create team:", error);
-      alert("チームの作成に失敗しました");
+
+    if(userinfo){
+      try {
+      
+        const { id } = await createTeam(teamName.toString(), userinfo);
+        console.log("Created team:", id);
+        return navigate(`/team/${id}`, { state: teamName });
+      } catch (error) {
+        console.error("Failed to create team:", error);
+        alert("チームの作成に失敗しました");
+      }
+
     }
   }
 
