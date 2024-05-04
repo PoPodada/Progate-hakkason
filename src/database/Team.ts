@@ -89,6 +89,7 @@ export const createTeam = async (
   const result = await addDoc(teamsRef, {
     name: teamName,
     teamMembers: [author.id],
+    createdAt: serverTimestamp(),
   });
 
   return {

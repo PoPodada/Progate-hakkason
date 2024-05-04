@@ -6,19 +6,23 @@ import {
   useState,
 } from "react";
 import { auth, provider } from "../firebase";
-import { signInWithPopup, User } from "firebase/auth";
-import { updateOrCreateUser } from "../database/User";
+import { signInWithPopup, User as UserImpl } from "firebase/auth";
+import { getUserFromUid, updateOrCreateUser } from "../database/User";
 import { GoogleAuthProvider } from "firebase/auth/cordova";
+import { getCalendarEvents } from "./GoogleCalendarAPI";
+import { User as DocumentUser } from "../types";
 
 // Contextの処理
 export type AuthContextType = {
-  user: User | null;
+  user: UserImpl | null;
+  cachedDuser: DocumentUser | null; // document の User
   login: () => void;
   logout: () => void;
 };
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
+  cachedDuser: null,
   login: () => {},
   logout: () => {},
 });
@@ -33,12 +37,20 @@ type Props = {
 };
 
 export const AuthContextProvider: React.FC<Props> = (props: Props) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [userImpl, setUserImpl] = useState<UserImpl | null>(null);
+  const [cachedDuser, setCachedDuser] = useState<DocumentUser | null>(null); // [追加
 
   // Authの状態を監視
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user);
+      setUserImpl(user);
+
+      (async () => {
+        if (user !== null) {
+          const data = await getUserFromUid(user.uid);
+          setCachedDuser(data);
+        }
+      })();
     });
 
     return () => unsubscribe();
@@ -50,8 +62,17 @@ export const AuthContextProvider: React.FC<Props> = (props: Props) => {
 
     const credintial = GoogleAuthProvider.credentialFromResult(result);
 
+    // アクセストークンが取得できた場合はカレンダー情報を取得
+    // その後ユーザー情報を更新
     if (credintial?.accessToken !== undefined) {
-      updateOrCreateUser(result.user, credintial.accessToken);
+      const data = await getCalendarEvents(credintial.accessToken);
+
+      const documentUser = await updateOrCreateUser(
+        result.user,
+        credintial.accessToken,
+        JSON.stringify(data)
+      );
+      setCachedDuser(documentUser);
     }
   };
 
@@ -62,7 +83,8 @@ export const AuthContextProvider: React.FC<Props> = (props: Props) => {
   return (
     <AuthContext.Provider
       value={{
-        user: user,
+        user: userImpl,
+        cachedDuser: cachedDuser,
         login: login,
         logout: logout,
       }}

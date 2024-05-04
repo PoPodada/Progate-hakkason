@@ -5,6 +5,7 @@ import {
   getDocs,
   orderBy,
   query,
+  serverTimestamp,
   Timestamp,
   updateDoc,
   where,
@@ -62,6 +63,7 @@ export const createMeeting = async (teamId: string, meeting: Meeting) => {
     name: meeting.name,
     time: Timestamp.fromDate(meeting.time),
     meetingMembers: meeting.members,
+    createdAt: serverTimestamp(),
   });
   await updateTeamTimestamp(teamId);
 };
