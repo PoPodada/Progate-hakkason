@@ -6,13 +6,13 @@ export interface User {
 }
 
 export interface Team {
-  id: string;
+  id: string; // ドキュメントID
   name: string;
   members: string[]; // ドキュメントID[]
 }
 
 export interface Meeting {
-  id: string;
+  id: string; // ドキュメントID
   name: string;
   time: Date;
   members: string[]; // ドキュメントID[]
