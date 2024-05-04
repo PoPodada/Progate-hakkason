@@ -1,6 +1,5 @@
 
 const MeetingCard = (props:any) => {
-  console.log(props.detail)
   return (
 
     <div className=" bg-white  rounded-lg">
@@ -13,7 +12,6 @@ const MeetingCard = (props:any) => {
           <p className="text-xl mb-1">メンバー：
           {
             props.detail.members.map((member:any)=>{
-              console.log(member)
               return(`${member},`)
             }
             )

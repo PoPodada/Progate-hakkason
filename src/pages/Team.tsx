@@ -9,6 +9,8 @@ import { useState } from "react";
 import { meeting } from "../pages/Home";
 import { useLocation } from "react-router-dom";
 import { Tooltip } from "react-tooltip";
+import { useParams } from "react-router-dom";
+import { getTeamFromId } from "../database/Team";
 
 //propsで会議idを受け取る予定
 const Team: React.FC = () => {
@@ -21,9 +23,8 @@ const Team: React.FC = () => {
     setMeetings(MeetingList[0].meetings);
   }, []);
 
-  const locationState = useLocation();
-  const teamName = locationState.state;
-  const [tooltip, setTooltip] = useState(false);
+
+  const [teamName, setTeamName] = useState("");
 
   const urlCopyHandler = async (url: string) => {
     try {
@@ -38,7 +39,26 @@ const Team: React.FC = () => {
     }
   };
 
-  return (
+
+  const { id } = useParams();
+  if (!id) {
+    return;
+  }
+  useEffect(() => {
+     
+    (async () => {
+      try {
+        const returnTeam = await getTeamFromId(id);
+        if (!returnTeam) {
+          return;
+        }
+        setTeamName(returnTeam.name);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, []);
+return (
     <div>
       <div>
         <Link
@@ -106,6 +126,8 @@ const Team: React.FC = () => {
                 : ""}
             </div>
           </div>
+  
+
         </div>
       </div>
     </div>
