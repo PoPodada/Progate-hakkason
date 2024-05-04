@@ -16,14 +16,14 @@ import { updateTeamTimestamp } from "./Team";
 
 /**
  * チームIDからミーティングのリストを取得
- * @param teamId チームID
+ * @param teamDid チームID
  * @returns types.tsのMeeting型の配列
  */
-export const getTeamMeetingListFromTeamId = async (teamId: string) => {
+export const getTeamMeetingListFromTeamId = async (teamDid: string) => {
   const meetingRef = collection(
     db,
     TeamsDBName,
-    teamId,
+    teamDid,
     MeetingsDBName
   ).withConverter(MeetingsConverter);
   const querySnapshot = await getDocs(
@@ -46,15 +46,15 @@ export const getTeamMeetingListFromTeamId = async (teamId: string) => {
 
 /**
  * チームIDとミーティングIDからミーティング情報を取得
- * @param teamId チームID
+ * @param teamDid チームID
  * @param meetingId ミーティングID
  * @returns types.tsのMeeting型
  */
-export const createMeeting = async (teamId: string, meeting: Meeting) => {
+export const createMeeting = async (teamDid: string, meeting: Meeting) => {
   const meetingRef = collection(
     db,
     TeamsDBName,
-    teamId,
+    teamDid,
     MeetingsDBName
   ).withConverter(MeetingsConverter);
 
@@ -63,19 +63,19 @@ export const createMeeting = async (teamId: string, meeting: Meeting) => {
     time: Timestamp.fromDate(meeting.time),
     meetingMembers: meeting.members,
   });
-  await updateTeamTimestamp(teamId);
+  await updateTeamTimestamp(teamDid);
 };
 
 /**
  * チームIDとミーティングIDからミーティング情報を取得
- * @param teamId チームID
+ * @param teamDid チームID
  * @param meetingId ミーティングID
  */
-export const deleteMeeting = async (teamId: string, meetingId: string) => {
+export const deleteMeeting = async (teamDid: string, meetingId: string) => {
   const meetingRef = collection(
     db,
     TeamsDBName,
-    teamId,
+    teamDid,
     MeetingsDBName
   ).withConverter(MeetingsConverter);
   const docRef = doc(meetingRef, meetingId);
@@ -83,5 +83,5 @@ export const deleteMeeting = async (teamId: string, meetingId: string) => {
   await updateDoc(docRef, {
     delFlag: 1,
   });
-  await updateTeamTimestamp(teamId);
+  await updateTeamTimestamp(teamDid);
 };
