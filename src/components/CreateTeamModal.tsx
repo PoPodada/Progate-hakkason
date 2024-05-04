@@ -1,5 +1,8 @@
 import React from "react";
 import Modal from "react-modal";
+import { createTeam } from "../database/Team";
+import { useNavigate } from "react-router-dom";
+import userData from "../sampleData/userData.json";
 
 const customStyles = {
   overlay: {
@@ -30,6 +33,24 @@ const CreateTeamModal: React.FC = () => {
     setIsOpen(false);
   }
 
+  const navigate = useNavigate();
+  async function handleTeamCreate(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const teamName = form.get("teamName");
+    if (teamName === null) {
+      return alert("チーム名を入力してください");
+    }
+
+    try {
+      const { id } = await createTeam(teamName.toString(), userData);
+      return navigate(`/team/${id}`, { state: teamName });
+    } catch (error) {
+      console.error("Failed to create team:", error);
+      alert("チームの作成に失敗しました");
+    }
+  }
+
   return (
     <div className="">
       <button
@@ -49,7 +70,11 @@ const CreateTeamModal: React.FC = () => {
             ×
           </button>
           <h2 className="font-bold text-2xl text-center">チーム作成</h2>
-          <form action="" className="flex flex-col gap-8 mt-8 items-center">
+          <form
+            action=""
+            className="flex flex-col gap-8 mt-8 items-center"
+            onSubmit={(event) => handleTeamCreate(event)}
+          >
             <label htmlFor="teamName" className="flex flex-col gap-2">
               チーム名
               <input

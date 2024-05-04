@@ -3,11 +3,25 @@ import React from "react";
 import MeetingCreate from "../components/MeetingCreate";
 
 import MeetingCard from "../components/MeetingCard";
+import { useLocation } from "react-router-dom";
 
 const Team: React.FC = () => {
+  const locationState = useLocation();
+  const teamName = locationState.state;
+
+  const urlCopyHandler = async (url: string) => {
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      alert("URLのコピーに失敗しました");
+    }
+  };
+
   return (
     <div>
-      team
+      team:{teamName}
+      <div>{location.href}</div>
+      <button onClick={() => urlCopyHandler(location.href)}>copy</button>
       <div className="max-w-[900px] mx-auto mt-10 mb-20">
         <MeetingCreate></MeetingCreate>
         <h2 className="text-2xl font-bold mt-40">会議一覧</h2>
