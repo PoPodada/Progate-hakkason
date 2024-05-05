@@ -1,6 +1,6 @@
 
 const MeetingCard = (props:any) => {
-  console.log(props.detail)
+  // const membername = getUserFromUid(props.detail.members[0])
   return (
 
     <div className=" bg-white  rounded-lg">
@@ -8,12 +8,11 @@ const MeetingCard = (props:any) => {
         {
           props.detail.id ? 
           <>
-          <p className="text-2xl mb-2">会議{props.detail.id}</p>
+          <p className="text-2xl mb-2">会議：{props.detail.name}</p>
           <p className="text-xl mb-1">日程：{props.detail.time}</p>
           <p className="text-xl mb-1">メンバー：
           {
             props.detail.members.map((member:any)=>{
-              console.log(member)
               return(`${member},`)
             }
             )

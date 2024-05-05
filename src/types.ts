@@ -15,6 +15,6 @@ export interface Team {
 export interface Meeting {
   id: string;
   name: string;
-  time: Date;
+  time: string;
   members: string[]; // ドキュメントID[]
 }
