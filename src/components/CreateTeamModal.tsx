@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "react-modal";
 import { createTeam } from "../database/Team";
 import { useNavigate } from "react-router-dom";
-import userData from "../sampleData/userData.json";
+import { useAuthContext } from "../utils/AuthContext";
+import { getUserFromUid } from "../database/User";
+import { User } from "../types";
 
 
 const customStyles = {
@@ -26,6 +28,9 @@ Modal.setAppElement("#root");
 const CreateTeamModal: React.FC = () => {
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
+  const [userinfo, setUserinfo] = React.useState<User>();
+  const { user } = useAuthContext();
+
   function openModal() {
     setIsOpen(true);
   }
@@ -33,34 +38,44 @@ const CreateTeamModal: React.FC = () => {
   function closeModal() {
     setIsOpen(false);
   }
+  useEffect(() => {
+    (async () => {
+      if (user) {
+        const userinfo = await getUserFromUid(user.uid);
+        setUserinfo(userinfo);
+      }
+    })();
+  }, [user]);
 
   const navigate = useNavigate();
   async function handleTeamCreate(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    
+
     const teamName = form.get("teamName");
     if (teamName === null) {
       return alert("チーム名を入力してください");
     }
 
-    try {
-      const { id } = await createTeam(teamName.toString(), userData);
-      console.log("Created team:", id);
-      return navigate(`/team/${id}`, { state: teamName });
-    } catch (error) {
-      console.error("Failed to create team:", error);
-      alert("チームの作成に失敗しました");
+    if (userinfo) {
+      try {
+        const { id } = await createTeam(teamName.toString(), userinfo);
+        console.log("Created team:", id);
+        return navigate(`/team/${id}`, { state: teamName });
+      } catch (error) {
+        console.error("Failed to create team:", error);
+        alert("チームの作成に失敗しました");
+      }
     }
   }
 
   return (
-    <div className="">
+    <div className="mt-24">
       <button
         onClick={openModal}
-        className="bg-neutral-200 rounded-md py-4 px-8 mt-10 mx-auto block"
+        className="bg-white text-neutral-600 font-extrabold  box-border border-4 border-neutral-500  hover:bg-neutral-300 rounded-md py-4 px-10 mt-10 mx-auto shadow-md tracking-wider  text-2xl  block hover:shadow-inner-2xl  hover:text-white hover:font-semibold hover:border-neutral-50"
       >
-        チーム作成
+        チームを作成
       </button>
       <Modal
         isOpen={modalIsOpen}

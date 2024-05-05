@@ -2,5 +2,6 @@
   "id": "1",
   "userId": "1",
   "name": "string",
-  "iconUrl": "string"
+  "iconUrl": "string",
+  "accessToken": "string"
 }

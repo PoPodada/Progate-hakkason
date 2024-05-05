@@ -1,6 +1,6 @@
 
 const MeetingCard = (props:any) => {
-  // const membername = getUserFromUid(props.detail.members[0])
+
   return (
 
     <div className=" bg-white  rounded-lg">
