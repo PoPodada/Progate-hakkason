@@ -3,27 +3,49 @@ import React from "react";
 import MeetingCreate from "../components/MeetingCreate";
 import MeetingCard from "../components/MeetingCard";
 import { Link } from "react-router-dom";
-import data from "../sampleData/teamData.json";
 import { useEffect } from "react";
 import { useState } from "react";
-import { meeting } from "../pages/Home";
 import { Tooltip } from "react-tooltip";
 import { useParams } from "react-router-dom";
 import { getTeamFromId } from "../database/Team";
+import { Meeting, Team } from "../types";
+import { getTeamMeetingListFromTeamId } from "../database/Meeting";
 
 //propsで会議idを受け取る予定
-const Team: React.FC = () => {
-  const [meetings, setMeetings] = useState<meeting[]>();
+const TeamPage: React.FC = () => {
+  const { id } = useParams();
+  // number が 0 の場合はローディング中
+  // number が 1 の場合はエラー
+  const [teamData, setTeamData] = useState<Team | number>(0);
+  const [meetings, setMeetings] = useState<Meeting[]>();
   const [tooltip, setTooltip] = useState(false);
+
+  // idの処理
+  if (!id) {
+    return <div>Error 404 Not found</div>;
+  }
+
   useEffect(() => {
-    let teamid = "1";
-    const teamData = data;
-    const MeetingList = teamData.filter((data) => data.id === teamid);
-    console.log(MeetingList[0].meetings);
-    setMeetings(MeetingList[0].meetings);
+    (async () => {
+      const teamData = await getTeamFromId(id);
+      if (!teamData) {
+        setTeamData(1);
+        return;
+      }
+
+      const meetings = await getTeamMeetingListFromTeamId(id);
+      setMeetings(meetings);
+      setTeamData(teamData);
+    })();
   }, []);
 
-  const [teamName, setTeamName] = useState("");
+  // チームデータの取得
+  if (teamData == 0) {
+    return <div>Loading...</div>;
+  }
+  if (typeof teamData == "number") {
+    return <div>Error 404 Not found</div>;
+  }
 
   const urlCopyHandler = async (url: string) => {
     try {
@@ -38,23 +60,6 @@ const Team: React.FC = () => {
     }
   };
 
-  const { id } = useParams();
-  if (!id) {
-    return;
-  }
-  useEffect(() => {
-    (async () => {
-      try {
-        const returnTeam = await getTeamFromId(id);
-        if (!returnTeam) {
-          return;
-        }
-        setTeamName(returnTeam.name);
-      } catch (e) {
-        console.error(e);
-      }
-    })();
-  }, []);
   return (
     <div>
       <div>
@@ -67,7 +72,7 @@ const Team: React.FC = () => {
         <div className="max-w-[900px] mx-auto mt-10 mb-20 tracking-wider">
           <div className=" items-end">
             <h1 className="text-5xl  text-neutral-700  font-bold  py-2 pl-4 border-b-4 drop-shadow-sm mb-8">
-              {teamName}
+              {teamData.name}
             </h1>
           </div>
 
@@ -129,4 +134,4 @@ const Team: React.FC = () => {
   );
 };
 
-export default Team;
+export default TeamPage;
