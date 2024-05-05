@@ -6,9 +6,8 @@ import TeamPreview from "../components/TeamPreview";
 import MeetingCard from "../components/MeetingCard";
 import { getTeamListFromUid } from "../database/Team";
 import { getUserFromUid } from "../database/User";
-import {getTeamMeetingListFromTeamId } from "../database/Meeting";
+import { getTeamMeetingListFromTeamId } from "../database/Meeting";
 import { Meeting } from "../types";
-
 
 type team = {
   id: string;
@@ -24,7 +23,7 @@ export type meeting = {
 
 const Home: React.FC = () => {
   const auth = useAuthContext();
-  const {user} = useAuthContext();
+  const { user } = useAuthContext();
   const onClickLogin = () => {
     auth.login();
   };
@@ -33,40 +32,35 @@ const Home: React.FC = () => {
     auth.logout();
   };
 
-  
   const [teams, setTeams] = useState<team[]>();
-  const [userMeetings,setUserMeetings] = useState<Meeting[]>();
-  
+  const [userMeetings, setUserMeetings] = useState<Meeting[]>();
+
   useEffect(() => {
     (async () => {
-      const userId = user?.uid ? user.uid:"";
+      const userId = user?.uid ? user.uid : "";
       const userInfo = await getUserFromUid(userId);
       const userTeamList = await getTeamListFromUid(userInfo.id);
-      setTeams(userTeamList)
-      
+      setTeams(userTeamList);
+
       //ここを直したいけど、会議の情報が取れない
-      
-      try{
-        const userMeetingList = userTeamList.map(async (team)=> {
-          const meetings:Meeting[] = await getTeamMeetingListFromTeamId(team.id);
-          return meetings
-        })
-        const userMeetingLists =(await Promise.all(userMeetingList)).flat(1)
-        for(const meeting of userMeetingLists){
-          meeting.time = new Date(meeting.time).toLocaleString()
+
+      try {
+        const userMeetingList = userTeamList.map(async (team) => {
+          const meetings: Meeting[] = await getTeamMeetingListFromTeamId(
+            team.id
+          );
+          return meetings;
+        });
+        const userMeetingLists = (await Promise.all(userMeetingList)).flat(1);
+        for (const meeting of userMeetingLists) {
+          meeting.time = new Date(meeting.time).toLocaleString();
         }
-        setUserMeetings(userMeetingLists)
-      }catch(e){
-        console.log(e)
+        setUserMeetings(userMeetingLists);
+      } catch (e) {
+        console.log(e);
       }
-      
     })();
-    
-    
-
-    
   }, [user]);
-
 
   return (
     <div className=" ">
@@ -143,7 +137,11 @@ const Home: React.FC = () => {
             <h2 className="text-2xl font-bold">入っているチーム一覧</h2>
             {teams
               ? teams.map((team) => (
-                  <TeamPreview key={team.id} name={team.name}></TeamPreview>
+                  <TeamPreview
+                    key={team.id}
+                    name={team.name}
+                    id={team.id}
+                  ></TeamPreview>
                 ))
               : ""}
 
@@ -157,7 +155,6 @@ const Home: React.FC = () => {
                       );
                     })
                   : ""}
-
               </div>
             </div>
           </div>
