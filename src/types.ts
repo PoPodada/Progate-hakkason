@@ -1,3 +1,5 @@
+import { Event } from "./utils/GoogleCalendarAPI";
+
 export interface User {
   id: string; // ドキュメントID
   userId: string; // アカウントのuid
@@ -11,7 +13,7 @@ export interface Team {
   id: string; // ドキュメントID
   name: string;
   members: string[]; // ドキュメントID[]
-  // meetings: string[]; 
+  // meetings: string[];
 }
 
 export interface Meeting {

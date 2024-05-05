@@ -61,24 +61,6 @@ const TeamPage: React.FC = () => {
     }
   };
 
-  const { id } = useParams();
-  if (!id) {
-    return;
-  }
-  useEffect(() => {
-    (async () => {
-      try {
-        const returnTeam = await getTeamFromId(id);
-        if (!returnTeam) {
-          return;
-        }
-        setTeamName(returnTeam.name);
-      } catch (e) {
-        console.error(e);
-      }
-    })();
-  }, []);
-
   const auth = useAuthContext();
 
   const onClickLogin = () => {
@@ -89,17 +71,16 @@ const TeamPage: React.FC = () => {
     auth.logout();
   };
 
-
   return (
     <div className=" ">
       <div className=" items-center bg-neutral-200 flex w-full  justify-between pl-10 pr-8 py-4 mb-36">
-      <Link
+        <Link
           to="/"
           className="text-4xl font-bold  text-neutral-600 tracking-wider  block  text-center  hover:underline underline-offset-4 "
         >
           サービス名
         </Link>
-  
+
         <div className="flex">
           {/* 右寄せにgridがいる */}
           {auth.user ? (
@@ -154,8 +135,7 @@ const TeamPage: React.FC = () => {
       </div>
 
       <div />
-    
-    
+
       <div>
         <div className="max-w-[900px] mx-auto mt-10 mb-20 tracking-wider relative">
           <div className=" items-end">
@@ -164,9 +144,7 @@ const TeamPage: React.FC = () => {
             </h1>
           </div>
 
-          <div
-            className="  grid grid-cols-10 bg-neutral-100 py-4 px-6 text-lg  border border-neutral-200  rounded-sm text-neutral-900  text-opacity-60 tracking-wider"
-          >
+          <div className="  grid grid-cols-10 bg-neutral-100 py-4 px-6 text-lg  border border-neutral-200  rounded-sm text-neutral-900  text-opacity-60 tracking-wider">
             <h2 className=" decoration-solid t  break-all  col-span-9">
               {location.href}
             </h2>
@@ -208,7 +186,7 @@ const TeamPage: React.FC = () => {
             <div className=" bg-neutral-300 h-12 w-12 rounded-full "></div>
           </div>
           <div className="max-w-[900px] mx-auto mt-10 mb-20">
-            <MeetingCreate teamId={teamData.id}></MeetingCreate>
+            <MeetingCreate teamData={teamData}></MeetingCreate>
             <h2 className="text-2xl font-bold mt-40">会議一覧</h2>
             <div className=" bg-neutral-300 py-12 px-12 rounded-md mt-2 space-y-10">
               {meetings
@@ -220,7 +198,7 @@ const TeamPage: React.FC = () => {
           </div>
         </div>
       </div>
-      </div>
+    </div>
   );
 };
 
