@@ -118,7 +118,7 @@ const TeamPage: React.FC = () => {
             <div className=" bg-neutral-300 h-12 w-12 rounded-full "></div>
           </div>
           <div className="max-w-[900px] mx-auto mt-10 mb-20">
-            <MeetingCreate teamId={teamData.id}></MeetingCreate>
+            <MeetingCreate teamData={teamData}></MeetingCreate>
             <h2 className="text-2xl font-bold mt-40">会議一覧</h2>
             <div className=" bg-neutral-300 py-12 px-12 rounded-md mt-2 space-y-10">
               {meetings
