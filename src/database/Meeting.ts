@@ -39,7 +39,7 @@ export const getTeamMeetingListFromTeamId = async (
     meetings.push({
       id: doc.id,
       name: data.name,
-      time: data.time.toDate(),
+      time: data.time.toDate().toLocaleString(),
       members: data.meetingMembers,
     });
   });
@@ -63,7 +63,7 @@ export const createMeeting = async (teamDid: string, meeting: Meeting) => {
 
   await addDoc(meetingRef, {
     name: meeting.name,
-    time: Timestamp.fromDate(meeting.time),
+    time: Timestamp.fromDate(new Date(meeting.time)),
     meetingMembers: meeting.members,
     createdAt: serverTimestamp(),
   });
