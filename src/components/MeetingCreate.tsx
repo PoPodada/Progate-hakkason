@@ -142,7 +142,7 @@ const MeetingCreate: React.FC<MeetingCreateProps> = (
   };
 
   // 仮処理
-  const handleMemberChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMemberChange = async () => {
     props.teamData.members.forEach(async (memberId) => {
       const member = await getuserFromUserDocumentId(memberId);
       const allEvents = member.events;
