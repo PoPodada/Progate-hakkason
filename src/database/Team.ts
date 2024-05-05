@@ -19,6 +19,9 @@ const teamsRef = collection(db, TeamsDBName).withConverter(TeamsConverter);
 
 /**
  * ユーザーのuidから所属しているチームのリストを取得
+
+
+
  * @param uid ユーザーのDocumentId
  * @param size 取得する数
  * @returns types.tsのTeam型の配列
@@ -31,7 +34,7 @@ export const getTeamListFromUid = async (
     query(
       teamsRef,
       where("teamMembers", "array-contains", uid),
-      where("delFlag", "==", 1),
+      where("delFlag", "==", 0),
       limit(size),
       orderBy("updatedAt", "desc")
     )

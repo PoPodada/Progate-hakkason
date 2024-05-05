@@ -1,6 +1,8 @@
 import {
   addDoc,
   collection,
+  doc,
+  getDoc,
   getDocs,
   limit,
   query,
@@ -190,6 +192,46 @@ export const getUserFromUid = async (uid: string): Promise<User> => {
       iconUrl: result.data().iconUrl,
       accessToken: result.data().accsessToken,
       events: JSON.parse(result.data().events),
+    };
+
+    return returnUser;
+  }
+
+  // 存在しない場合
+  const returnUser: User = {
+    id: "-1",
+    userId: "-1",
+    name: "存在しないユーザー",
+    iconUrl: "",
+    accessToken: "",
+    events: [],
+  };
+  return returnUser;
+};
+
+
+/**
+ * documentIdからUser情報を取得する
+ * 存在しない場合はidが-1のユーザーを返す
+ * @param documentId ユーザーのdocumentId
+ * @returns types.tsのUser型
+ */
+export const getuserFromUserDocumentId = async (
+  documentId: string
+): Promise<User> => {
+  const docRef = doc(usersRef, documentId);
+  const docSnapshot = await getDoc(docRef);
+
+  // ユーザーが存在する場合はそのデータを返す
+  if (docSnapshot.exists()) {
+    const data = docSnapshot.data();
+    const returnUser: User = {
+      id: docSnapshot.id,
+      userId: data.userId,
+      name: data.name,
+      iconUrl: data.iconUrl,
+      accessToken: data.accsessToken,
+      events: JSON.parse(data.events),
     };
 
     return returnUser;
