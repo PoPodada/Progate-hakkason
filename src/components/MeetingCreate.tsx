@@ -14,9 +14,13 @@ enum Time {
   "5h" = 300,
 }
 
-type MeetingCreateProps = {};
+type MeetingCreateProps = {
+  teamId: string;
+};
 
-const Team: React.FC = () => {
+const MeetingCreate: React.FC<MeetingCreateProps> = (
+  props: MeetingCreateProps
+) => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [duration, setDuration] = useState<number>(0);
@@ -180,4 +184,4 @@ const Team: React.FC = () => {
   );
 };
 
-export default Team;
+export default MeetingCreate;
