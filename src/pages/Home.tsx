@@ -73,7 +73,7 @@ const Home: React.FC = () => {
       <div className=" items-center bg-neutral-200 flex w-full  justify-between pl-10 pr-8 py-4">
         <div className="text-4xl font-bold  text-neutral-600 tracking-wider">
           {" "}
-          サービス名
+          調整くん
         </div>
         <div className="flex">
           {/* 右寄せにgridがいる */}
