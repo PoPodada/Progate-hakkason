@@ -4,9 +4,11 @@ import CreateTeamModal from "../components/CreateTeamModal";
 import { useAuthContext } from "../utils/AuthContext";
 import TeamPreview from "../components/TeamPreview";
 import MeetingCard from "../components/MeetingCard";
+import { getTeamListFromUid } from "../database/Team";
+import { getUserFromUid } from "../database/User";
+import {getTeamMeetingListFromTeamId } from "../database/Meeting";
+import { Meeting } from "../types";
 
-import data from "../sampleData/teamData.json";
-// import { set } from "firebase/database";
 
 type team = {
   id: string;
@@ -22,7 +24,7 @@ export type meeting = {
 
 const Home: React.FC = () => {
   const auth = useAuthContext();
-
+  const {user} = useAuthContext();
   const onClickLogin = () => {
     auth.login();
   };
@@ -30,23 +32,42 @@ const Home: React.FC = () => {
   const onClickLogout = () => {
     auth.logout();
   };
+
+  
   const [teams, setTeams] = useState<team[]>();
-  const [userMeetings, setUserMeetings] = useState<meeting[]>();
-  const userId = "2";
+  const [userMeetings,setUserMeetings] = useState<Meeting[]>();
+  
   useEffect(() => {
-    const teamsData = data;
-    const userTeam = teamsData.filter((team) => {
-      return team.members.includes(userId); // currentUserが含まれているデータのみを取得
-    });
-    setTeams(userTeam);
-    const userMeetingList = userTeam
-      .map((team) => {
-        return team.meetings;
-      })
-      .flat(1);
-    setUserMeetings(userMeetingList);
-    console.log(auth.user?.displayName)
-  }, []);
+    (async () => {
+      const userId = user?.uid ? user.uid:"";
+      const userInfo = await getUserFromUid(userId);
+      const userTeamList = await getTeamListFromUid(userInfo.id);
+      setTeams(userTeamList)
+      
+      //ここを直したいけど、会議の情報が取れない
+      
+      try{
+        const userMeetingList = userTeamList.map(async (team)=> {
+          const meetings:Meeting[] = await getTeamMeetingListFromTeamId(team.id);
+          return meetings
+        })
+        const userMeetingLists =(await Promise.all(userMeetingList)).flat(1)
+        for(const meeting of userMeetingLists){
+          meeting.time = new Date(meeting.time).toLocaleString()
+        }
+        setUserMeetings(userMeetingLists)
+      }catch(e){
+        console.log(e)
+      }
+      
+    })();
+    
+    
+
+    
+  }, [user]);
+
+
 
   return (
     <div className=" ">
@@ -133,7 +154,7 @@ const Home: React.FC = () => {
                 {
                   userMeetings ? userMeetings.map((meeting)=>{
                     return (
-                    <MeetingCard  detail={meeting}></MeetingCard>
+                    <MeetingCard  detail={meeting} key={meeting.id} />
                   )
                   
                   }):""

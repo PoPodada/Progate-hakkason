@@ -11,11 +11,12 @@ export interface Team {
   id: string; // ドキュメントID
   name: string;
   members: string[]; // ドキュメントID[]
+  // meetings: string[]; 
 }
 
 export interface Meeting {
   id: string; // ドキュメントID
   name: string;
-  time: Date;
+  time: string;
   members: string[]; // ドキュメントID[]
 }

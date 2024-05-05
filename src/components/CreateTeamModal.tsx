@@ -6,6 +6,7 @@ import { useAuthContext } from "../utils/AuthContext";
 import { getUserFromUid } from "../database/User";
 import { User } from "../types";
 
+
 const customStyles = {
   overlay: {
     top: 0,
