@@ -19,11 +19,11 @@ const Team: React.FC = () => {
     let teamid = "1";
     const teamData = data;
     const MeetingList = teamData.filter((data) => data.id === teamid);
-    console.log(MeetingList[0].meetings);
     setMeetings(MeetingList[0].meetings);
   }, []);
 
   const [teamName, setTeamName] = useState("");
+  const [members, setMembers] = useState([""]);
 
   const urlCopyHandler = async (url: string) => {
     try {
@@ -46,10 +46,12 @@ const Team: React.FC = () => {
     (async () => {
       try {
         const returnTeam = await getTeamFromId(id);
+        console.log(returnTeam?.members);
         if (!returnTeam) {
           return;
         }
         setTeamName(returnTeam.name);
+        setMembers(returnTeam.members);
       } catch (e) {
         console.error(e);
       }
@@ -90,16 +92,16 @@ const Team: React.FC = () => {
                 <path
                   d="M25 11.25H13.75C12.3693 11.25 11.25 12.3693 11.25 13.75V25C11.25 26.3807 12.3693 27.5 13.75 27.5H25C26.3807 27.5 27.5 26.3807 27.5 25V13.75C27.5 12.3693 26.3807 11.25 25 11.25Z"
                   stroke="black"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
                 <path
                   d="M6.25 18.75H5C4.33696 18.75 3.70107 18.4866 3.23223 18.0178C2.76339 17.5489 2.5 16.913 2.5 16.25V5C2.5 4.33696 2.76339 3.70107 3.23223 3.23223C3.70107 2.76339 4.33696 2.5 5 2.5H16.25C16.913 2.5 17.5489 2.76339 18.0178 3.23223C18.4866 3.70107 18.75 4.33696 18.75 5V6.25"
                   stroke="black"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
             </button>
@@ -117,8 +119,8 @@ const Team: React.FC = () => {
             <h2 className="text-2xl font-bold mt-40">会議一覧</h2>
             <div className=" bg-neutral-300 py-12 px-12 rounded-md mt-2 space-y-10">
               {meetings
-                ? meetings.map((meeting) => {
-                    return <MeetingCard detail={meeting} />;
+                ? meetings.map((meeting, index) => {
+                    return <MeetingCard key={index} detail={meeting} />;
                   })
                 : ""}
             </div>

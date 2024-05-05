@@ -20,11 +20,11 @@ const Team: React.FC = () => {
           <h2 className="text-2xl font-bold mt-12 mb-2">期間</h2>
           <div className=" text-xl tracking-wider flex">
             <label htmlFor="start">Start date：</label>
-            <input type="date" id="start" name="trip-start" value="" />
+            <input type="date" id="start" name="trip-start" />
 
             <div className="text-xl place-self-center px-2">～</div>
             <label htmlFor="start">End date：</label>
-            <input type="date" id="end" name="trip-end" value="" />
+            <input type="date" id="end" name="trip-end" />
           </div>
 
           <h2 className="text-2xl font-bold mt-12 mb-2">時間</h2>
@@ -61,7 +61,6 @@ const Team: React.FC = () => {
                 type="radio"
                 id="Date1"
                 name="schedule"
-                value="AA/AA AA:AA~AA:AA"
               />
               候補日1 ○○/○○ ○○:○○~○○:○○
             </label>

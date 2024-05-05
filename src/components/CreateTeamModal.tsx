@@ -60,7 +60,7 @@ const CreateTeamModal: React.FC = () => {
       try {
         const { id } = await createTeam(teamName.toString(), userinfo);
         console.log("Created team:", id);
-        return navigate(`/team/${id}`, { state: teamName });
+        return navigate(`/team/${id}`);
       } catch (error) {
         console.error("Failed to create team:", error);
         alert("チームの作成に失敗しました");
