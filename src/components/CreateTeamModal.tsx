@@ -43,6 +43,7 @@ const CreateTeamModal: React.FC = () => {
       if (user) {
         const userinfo = await getUserFromUid(user.uid);
         setUserinfo(userinfo);
+        console.log(userinfo)
       }
     })();
   }, [user]);
