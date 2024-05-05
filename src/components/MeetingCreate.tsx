@@ -215,10 +215,10 @@ const MeetingCreate: React.FC<MeetingCreateProps> = (
               required
             />
           </div>
-
           <h2 className="text-2xl font-bold mt-12 mb-2">期間</h2>
           <div className=" text-xl tracking-wider flex">
             <label htmlFor="start">Start date：</label>
+
             <input
               type="date"
               id="start"
@@ -277,7 +277,6 @@ const MeetingCreate: React.FC<MeetingCreateProps> = (
                     type="radio"
                     id="Date1"
                     name="schedule"
-                    value={Date.toString()}
                     onClick={handleSelectCandidateDate.bind(this, dateRange)}
                   />
                   候補日 {index + 1}: {dateRange.end.toLocaleString()} ～{" "}
