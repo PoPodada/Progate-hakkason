@@ -34,9 +34,6 @@ const MeetingCreate: React.FC<MeetingCreateProps> = (
   const [candidateDateRanges, setCandidateDateRanges] = useState<DateRange[]>();
   const [selectedDateRange, setSelectedDateRange] = useState<DateRange>();
 
-  //boolean型のstateを作成
-  const [update, setUpdata] = useState<boolean>(false);
-
   ////// コンポーネントに使う関数を定義 //////
   const handleMeetingNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMeetingName(e.target.value);
