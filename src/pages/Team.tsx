@@ -78,7 +78,7 @@ const TeamPage: React.FC = () => {
           to="/"
           className="text-4xl font-bold  text-neutral-600 tracking-wider  block  text-center  hover:underline underline-offset-4 "
         >
-          サービス名
+          調整くん
         </Link>
 
         <div className="flex">
