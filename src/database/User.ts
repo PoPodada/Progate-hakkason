@@ -40,13 +40,25 @@ export const getOrCreateUser = async (
   // ユーザーが存在する場合はそのデータを返す
   if (querySnapshot.size > 0) {
     const result = querySnapshot.docs[0];
+
+    const e = result
+      .data()
+      .events.replace(/\\n/g, "\\n")
+      .replace(/\\'/g, "\\'")
+      .replace(/\\"/g, '\\"')
+      .replace(/\\&/g, "\\&")
+      .replace(/\\r/g, "\\r")
+      .replace(/\\t/g, "\\t")
+      .replace(/\\b/g, "\\b")
+      .replace(/\\f/g, "\\f");
+
     const returnUser: User = {
       id: result.id,
       userId: result.data().userId,
       name: result.data().name,
       iconUrl: result.data().iconUrl,
       accessToken: result.data().accsessToken,
-      events: JSON.parse(result.data().events),
+      events: JSON.parse(e),
     };
 
     return returnUser;
@@ -185,13 +197,25 @@ export const getUserFromUid = async (uid: string): Promise<User> => {
   // ユーザーが存在する場合はそのデータを返す
   if (querySnapshot.size > 0) {
     const result = querySnapshot.docs[0];
+    const e = result
+      .data()
+      .events.replace(/\\n/g, "\\n")
+      .replace(/\\'/g, "\\'")
+      .replace(/\\"/g, '\\"')
+      .replace(/\\&/g, "\\&")
+      .replace(/\\r/g, "\\r")
+      .replace(/\\t/g, "\\t")
+      .replace(/\\b/g, "\\b")
+      .replace(/\\f/g, "\\f");
+    console.log(e);
+
     const returnUser: User = {
       id: result.id,
       userId: result.data().userId,
       name: result.data().name,
       iconUrl: result.data().iconUrl,
       accessToken: result.data().accsessToken,
-      events: JSON.parse(result.data().events),
+      events: JSON.parse(e || "null"),
     };
 
     return returnUser;
@@ -208,7 +232,6 @@ export const getUserFromUid = async (uid: string): Promise<User> => {
   };
   return returnUser;
 };
-
 
 /**
  * documentIdからUser情報を取得する
