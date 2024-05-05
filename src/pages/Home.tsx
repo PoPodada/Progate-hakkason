@@ -78,7 +78,7 @@ const Home: React.FC = () => {
                 className=" border-2  border-neutral-600 fill-neutral-600 bg-neutral-50 text-neutral-600 font-extrabold py-2 pl-4 pr-3 rounded flex gap-x-1 hover:shadow-inner   hover:bg-neutral-600 hover:text-white hover:border-transparent hover:fill-white"
               >
                 logout
-                <svg
+                {/* <svg
                   width="24"
                   height="24"
                   viewBox="0 0 500 500"
@@ -103,7 +103,7 @@ const Home: React.FC = () => {
                       <rect width="500" height="500" fill="white" />
                     </clipPath>
                   </defs>
-                </svg>
+                </svg> */}
               </button>
 
               <br />
